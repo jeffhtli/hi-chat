@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import ChatList from './ChatList';
+import ChatFooter from './ChatFooter';
 
 export default props => (
   <Container>
-    <TitleBar>即山下</TitleBar>
+    {/* <TitleBar>即山下</TitleBar> */}
     <ChatList />
-    <Footer />
+    <ChatFooter />
   </Container>
 );
 
@@ -22,9 +23,4 @@ const TitleBar = styled.div`
     text-align: center;
     background-color: black;
     color: white;
-`;
-
-const Footer = styled.div`
-    height: 3em;
-    background-color: red
 `;

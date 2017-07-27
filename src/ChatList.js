@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { observable } from 'mobx';
 import { observer } from "mobx-react";
 import getProverb from './service/Proverb';
-import GoTriangleLeft from 'react-icons/lib/go/triangle-left';
-import avatar from './images/lego.jpg';
-
+import ChatBubble from './ChatBubble'
 
 /**
  * 新消息显示后自动滚到最下面：
@@ -18,7 +16,11 @@ class ChatList extends React.Component {
 
   componentDidMount() {
     this.interval = setInterval(() => {
-      this.chats.push(getProverb());
+      const data = {
+        message: getProverb(),
+        isMe: Math.floor(Math.random() * 10) < 3
+      }
+      this.chats.push(data);
     }, 1000);
   }
 
@@ -36,8 +38,8 @@ class ChatList extends React.Component {
   render() {
     return (
       <Container innerRef={this.initContainer}>
-        {this.chats.map((item, index) => (
-          <Msg key={index}>{item}</Msg>
+        {this.chats.map((data, index) => (
+          <ChatBubble key={index} reverse={data.isMe}>{data.message}</ChatBubble>
         ))}
       </Container>
     )
@@ -52,17 +54,7 @@ class ChatList extends React.Component {
 
 }
 
-const Msg = ({children}) => (
-  <MsgContainer>
-    <div style={{ display: 'flex', flexDirection: 'row-reverse'}}>
-      <img style={{ width: '2em', height: '2em'}} src={avatar} />
-      <Arrow />
-      <div style={{ display: 'flex', flex: 1, justifyContent: 'flex-end'}}>
-        <Bubble>{children}</Bubble>
-      </div>
-    </div>
-  </MsgContainer>
-);
+
 
 const Container = styled.div`
     display: flex;
@@ -72,30 +64,7 @@ const Container = styled.div`
     overflow: auto;
 `;
 
-const Chat = styled.div`
-  padding: 0.5em;
-`;
 
-const MsgContainer = styled.span`
-  margin: 0.5em 3em 0.5em 1em;
-`;
-
-const Bubble = styled.span`
-  border-radius:0.3em;
-	background: #fff;
-  padding: 0.5em;
-`;
-
-const Arrow = styled.div`
-  width: 0px;
-  height:0px;
-  display:block;
-  border-style:solid;
-  border-width:0.5em;
-  border-color: transparent red transparent transparent;
-  margin-top: 0.5em;
-
-`;
 
 export default observer(ChatList);
 
