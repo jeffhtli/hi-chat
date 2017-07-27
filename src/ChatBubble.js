@@ -6,11 +6,11 @@ import avatarReverse from './images/lego1.jpg';
 export default ({ children, reverse }) => (
   <MsgContainer reverse={reverse}>
     <div>
-      <img alt='avatar' src={reverse ? avatarReverse : avatar} />
-      <Arrow reverse={reverse} />
-      <BubbleContainer reverse={reverse}>
-        <Bubble reverse={reverse}>{children}</Bubble>
-      </BubbleContainer>
+      <img className='avatar' alt='avatar' src={reverse ? avatarReverse : avatar} />
+      <div className='arrow' />
+      <div className='bubbleContainer'>
+        <span className='bubble' reverse={reverse}>{children}</span>
+      </div>
     </div>
   </MsgContainer>
 );
@@ -22,35 +22,34 @@ const MsgContainer = styled.div`
     display: flex;
     flex-direction: ${props => props.reverse ? 'row-reverse' : 'row'};
 
-    > img {
+    > .avatar {
       width: 2em;
       height: 2em;
     };
+
+    > .arrow {
+      width: 0px;
+      height:0px;
+      display:block;
+      border-style:solid;
+      border-width:0.5em;
+      border-color: ${props => props.reverse ? 'transparent transparent transparent #b2e281' : 'transparent white transparent transparent'};
+      margin-top: 0.5em;
+    }
+
+    > .bubbleContainer {
+      display: flex;
+      flex: 1;
+
+      ${props => props.reverse && css`
+        justify-content: flex-end;
+      `}
+
+      > .bubble {
+        border-radius:0.3em;
+        background: ${props => props.reverse ? '#b2e281' : '#fff'};
+        padding: 0.5em;
+      }
+    }
   }
-`;
-
-const BubbleContainer = styled.div`
-  display: flex;
-  flex: 1;
-
-  ${props => props.reverse && css`
-    justify-content: flex-end;
-  `}
-
-`;
-
-const Bubble = styled.span`
-  border-radius:0.3em;
-	background: ${props => props.reverse ? '#b2e281' : '#fff'};
-  padding: 0.5em;
-`;
-
-const Arrow = styled.div`
-  width: 0px;
-  height:0px;
-  display:block;
-  border-style:solid;
-  border-width:0.5em;
-  border-color: ${props => props.reverse ? 'transparent transparent transparent #b2e281' : 'transparent white transparent transparent'};
-  margin-top: 0.5em;
 `;
