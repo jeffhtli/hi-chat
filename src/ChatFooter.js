@@ -47,8 +47,8 @@ export default inject('chatList')(ChatFooter)
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 1.5rem;
-  padding: 1rem;
+  height: 2em;
+  padding: 1em 1em 0.5em 1em;
   background: white;
 `;
 
@@ -58,6 +58,7 @@ const Input = styled.input`
   outline: 0;
   background: transparent;
   border-bottom: 1px solid #d0d0d0;
+  font-size: 1em;
 
   &:focus {
     border-bottom: 1px solid ${R.color.mainColor};
@@ -67,6 +68,7 @@ const Input = styled.input`
 
 const Send = styled.button`
   margin: 0 0.5rem 0 0.5rem;
+  font-size: 1em;
 
   &:active {
     background: ${R.color.mainColor}
