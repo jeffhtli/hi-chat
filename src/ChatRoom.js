@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import ChatList from './ChatList';
 import ChatFooter from './ChatFooter';
 
+import { Provider } from 'mobx-react';
+import store from './store';
+
 export default props => (
-  <Container>
-    {/* <TitleBar>即山下</TitleBar> */}
-    <ChatList />
-    <ChatFooter />
-  </Container>
+  <Provider chatList={store.chatList}>
+    <Container>
+      <ChatList />
+      <ChatFooter />
+    </Container>
+  </Provider>
+
 );
 
 const Container = styled.div`
@@ -17,6 +22,7 @@ const Container = styled.div`
     height: 100%;
 `;
 
+// eslint-disable-next-line
 const TitleBar = styled.div`
     height: 3em;
     line-height: 3em;

@@ -1,12 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
+import {inject} from 'mobx-react';
+import R from './common';
 
-export default props => (
-  <Footer>
-    <Input type='text' />
-    <Send>发送</Send>
-  </Footer>
-);
+class ChatFooter extends React.Component {
+
+  state = {
+    inputMsg: ''
+  }
+
+  render() {
+    return (
+      <Footer>
+        <Input
+          type='text'
+          value={this.state.inputMsg}
+          onChange={this.onChange}
+          onKeyPress={this.onKeyPress}
+        />
+        <Send onClick={this.send}>发送</Send>
+      </Footer>
+    )
+  }
+
+  onChange = e => {
+    this.setState({inputMsg: e.target.value});
+  }
+
+  onKeyPress = e => {
+    return e.key === 'Enter' && this.send();
+  }
+
+  send = () => {
+    if (this.state.inputMsg) {
+      this.props.chatList.push({
+        message: this.state.inputMsg,
+        isMe: true
+      })
+      this.setState({ inputMsg: '' });
+    }
+  }
+}
+
+export default inject('chatList')(ChatFooter)
 
 const Footer = styled.div`
   display: flex;
@@ -24,11 +60,15 @@ const Input = styled.input`
   border-bottom: 1px solid #d0d0d0;
 
   &:focus {
-    border-bottom: 1px solid #007acc;
+    border-bottom: 1px solid ${R.color.mainColor};
   }
 
 `;
 
 const Send = styled.button`
   margin: 0 0.5rem 0 0.5rem;
+
+  &:active {
+    background: ${R.color.mainColor}
+  }
 `;

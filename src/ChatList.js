@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { observable } from 'mobx';
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import getProverb from './service/Proverb';
 import ChatBubble from './ChatBubble'
 
@@ -11,7 +10,6 @@ import ChatBubble from './ChatBubble'
  */
 class ChatList extends React.Component {
 
-  chats = observable([]);
   isScrolledToBottom = true;
 
   componentDidMount() {
@@ -20,7 +18,7 @@ class ChatList extends React.Component {
         message: getProverb(),
         isMe: Math.floor(Math.random() * 10) < 3
       }
-      this.chats.push(data);
+      this.props.chatList.push(data);
     }, 1000);
   }
 
@@ -38,7 +36,7 @@ class ChatList extends React.Component {
   render() {
     return (
       <Container innerRef={this.initContainer}>
-        {this.chats.map((data, index) => (
+        {this.props.chatList.map((data, index) => (
           <ChatBubble key={index} reverse={data.isMe}>{data.message}</ChatBubble>
         ))}
       </Container>
@@ -55,7 +53,6 @@ class ChatList extends React.Component {
 }
 
 
-
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -64,7 +61,5 @@ const Container = styled.div`
     overflow: auto;
 `;
 
-
-
-export default observer(ChatList);
+export default inject('chatList')(observer(ChatList));
 
